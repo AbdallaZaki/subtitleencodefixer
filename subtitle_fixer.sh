@@ -40,7 +40,11 @@ function prep_subtitle_file (){
 
 function fix_encoding (){
    prep_subtitle_file
-   cd $project_dir ; ruby subtitle_fixer.rb $fullpath
+   cd $project_dir ; ruby subtitle_fixer.rb $fullpath; cd $fullpath
+   file_count=$(ls -l *.srt | wc -l)
+   if [ $file_count -gt 1 ]; then
+     zip new_subtitles.zip ls ./*.srt 
+   fi
 }
 function delete_old_dir (){
    find $project_dir -type d -iname "https*" | xargs -d "\n"  rm -r
